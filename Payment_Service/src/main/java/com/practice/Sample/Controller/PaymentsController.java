@@ -28,7 +28,7 @@ public class PaymentsController {
 
 
     @PostMapping
-    public String method1(@RequestBody (required = false) Requestbody model){
+    public String method1(@RequestBody Requestbody model){
 
         //String result= psprequest.makeHttpCall();
         //log.info("The response is going to print",result);

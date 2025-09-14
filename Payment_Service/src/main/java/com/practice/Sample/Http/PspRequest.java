@@ -1,26 +1,21 @@
 package com.practice.Sample.Http;
 
-import com.practice.Sample.Model.Requestbody;
-import lombok.RequiredArgsConstructor;
+import com.practice.Sample.Model.ResponsBody;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
-
-import java.util.function.Consumer;
 
 @Slf4j
 @Component
 public class PspRequest {
 
-    // lets create Bean using constructor dependency
+    // java intermidiate object
+    ResponsBody responsbody;
 
-    private HttpRequest httprequest;
+    // lets create Bean using constructor dependency
+    private HttpRequestPOJO httpRequestPOJO;
     private RestClient restClient;
 //    @Autowired
     public PspRequest(RestClient.Builder restBuilder) {
@@ -28,20 +23,23 @@ public class PspRequest {
 
     }
 
-    public void setRequest(HttpRequest httprequest) {
-        this.httprequest = httprequest;
-    }
+//    public void setRequest(HttpRequestPOJO httpRequestPOJO) {
+//        this.httpRequestPOJO = httpRequestPOJO;
+//    }
 
-    public String makeHttpCall() {
+    public String makeHttpCall(HttpRequestPOJO httpRequestPOJO) {
+        String response;
 
-
-        ResponseEntity<String> responss= restClient.method(httprequest.getMethod())
-                .uri(httprequest.getUri())
-                .headers((HttpHeaders t)-> t.addAll(httprequest.getHeaders()))
-                .body(httprequest.getBody())
+        ResponseEntity<String> responsJSON= restClient.method(httpRequestPOJO.getMethod())
+                .uri(httpRequestPOJO.getUri())
+                .headers((HttpHeaders t)-> t.addAll(httpRequestPOJO.getHeaders()))
+                .body(httpRequestPOJO.getBody())
                 .retrieve()
                 .toEntity(String.class);
 
-        return responss.getBody();
+        response=responsJSON.getBody();
+
+
+        return response;
     }
 }
